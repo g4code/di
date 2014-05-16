@@ -4,6 +4,9 @@ namespace G4\DI;
 
 class Container
 {
+    private function __construct() {}
+    private function __clone() {}
+
     protected static $_container;
 
     public static function get($name)

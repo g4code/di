@@ -18,6 +18,11 @@ class Container
         return self::$_container[$name];
     }
 
+    public static function has($name)
+    {
+        return self::getInstance()->offsetExists($name);
+    }
+
     public static function getInstance()
     {
         if(null === self::$_container) {

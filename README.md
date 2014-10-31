@@ -7,14 +7,8 @@ DI
 
 > Using Composer and Packagist
 
-in composer.json file add:
-
-```json
-{
-    "require": {
-        "g4/di": "*"
-    }
-}
+```sh
+composer require g4/di
 ```
 
 ## Usage

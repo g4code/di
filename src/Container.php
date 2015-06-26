@@ -2,20 +2,29 @@
 
 namespace G4\DI;
 
-class Container
-{
-    private function __construct() {}
-    private function __clone() {}
+use \Pimple;
 
-    protected static $_container;
+class Container extends Pimple
+{
+
+    protected static $instance;
+
+    public function __construct(array $values = array())
+    {
+        parent::__construct($values);
+    }
+
+    final public static function getInstance()
+    {
+        if (static::$instance === null) {
+            static::$instance = new static();
+        }
+        return static::$instance;
+    }
 
     public static function get($name)
     {
-        if(null === self::$_container) {
-            self::getInstance();
-        }
-
-        return self::$_container[$name];
+        return self::getInstance()[$name];
     }
 
     public static function has($name)
@@ -23,12 +32,23 @@ class Container
         return self::getInstance()->offsetExists($name);
     }
 
-    public static function getInstance()
+    public static function register($callable)
     {
-        if(null === self::$_container) {
-            self::$_container = new \Pimple();
-        }
-
-        return self::$_container;
+        return self::reg(debug_backtrace()[1]['function'], $callable);
     }
+
+    public static function registerShare($callable)
+    {
+        return self::reg(debug_backtrace()[1]['function'], self::getInstance()->share($callable));
+    }
+
+    protected static function reg($id, $callable)
+    {
+        if (! self::getInstance()->offsetExists($id)) {
+            self::getInstance()->offsetSet($id, $callable);
+        }
+        return self::getInstance()->offsetGet($id);
+    }
+
+    private function __clone() {}
 }

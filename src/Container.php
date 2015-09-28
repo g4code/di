@@ -2,18 +2,31 @@
 
 namespace G4\DI;
 
-use \Pimple;
+use Pimple\Container as Pimple;
 
 class Container extends Pimple
 {
 
+    /**
+     * @var Container
+     */
     protected static $instance;
 
+    /**
+     * @param array $values
+     */
     public function __construct(array $values = array())
     {
         parent::__construct($values);
     }
 
+    private function __clone() {}
+
+    /**
+     * Singleton
+     *
+     * @return Container
+     */
     final public static function getInstance()
     {
         if (static::$instance === null) {
@@ -22,33 +35,40 @@ class Container extends Pimple
         return static::$instance;
     }
 
-    public static function get($name)
+    /**
+     * Register service that will each time return new instance of it
+     *
+     * @param function $callable
+     * @return mixed
+     */
+    public static function registerFactory($callable)
     {
-        return self::getInstance()[$name];
+        return self::reg(self::getInstance()->factory($callable));
     }
 
-    public static function has($name)
-    {
-        return self::getInstance()->offsetExists($name);
-    }
-
-    public static function register($callable)
-    {
-        return self::reg(debug_backtrace()[1]['function'], $callable);
-    }
-
+    /**
+     * Register service that will each time return the same instance of it
+     *
+     * @param function $callable
+     * @return mixed
+     */
     public static function registerShare($callable)
     {
-        return self::reg(debug_backtrace()[1]['function'], self::getInstance()->share($callable));
+        return self::reg($callable);
     }
 
-    protected static function reg($id, $callable)
+    /**
+     * Pimple facade
+     *
+     * @param function $callable
+     * @return \Pimple\mixed
+     */
+    private static function reg($callable)
     {
+        $id = debug_backtrace()[2]['function'];
         if (! self::getInstance()->offsetExists($id)) {
             self::getInstance()->offsetSet($id, $callable);
         }
         return self::getInstance()->offsetGet($id);
     }
-
-    private function __clone() {}
 }

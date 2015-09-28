@@ -29,6 +29,6 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "pimple/pimple": "1.*"
+        "pimple/pimple": "3.*"
     }
 }

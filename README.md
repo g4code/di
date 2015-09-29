@@ -3,6 +3,7 @@ DI
 
 > DI - dependencies injection container - singleton Pimple wrapper
 https://github.com/silexphp/Pimple
+
 * easy access by a method not by an array property
 * no need to remember DI array keys (or go back to the DI class to look) every time you need something
 * type hinting
@@ -18,7 +19,7 @@ composer require g4/di
 
 ## Usage
 
-Services are defined by anonymous functions that return an instance of an object. Define all services in one DI Container class inside your application:
+Services are defined by anonymous functions that returns an instance of an object. Define all services in one DI Container class inside your application:
 ```php
 
 namespace MyNamespace;

@@ -38,7 +38,7 @@ class Container extends Pimple
     /**
      * Register service that will each time return new instance of it
      *
-     * @param function $callable
+     * @param Callable $callable
      * @return mixed
      */
     public static function registerFactory($callable)
@@ -49,7 +49,7 @@ class Container extends Pimple
     /**
      * Register service that will each time return the same instance of it
      *
-     * @param function $callable
+     * @param Callable $callable
      * @return mixed
      */
     public static function registerShare($callable)
@@ -60,8 +60,8 @@ class Container extends Pimple
     /**
      * Pimple facade
      *
-     * @param function $callable
-     * @return \Pimple\mixed
+     * @param Callable $callable
+     * @return mixed
      */
     private static function reg($callable)
     {

@@ -43,7 +43,7 @@ class Container extends Pimple
      */
     public static function registerFactory($callable)
     {
-        return self::reg(self::getInstance()->factory($callable));
+        return self::getInstance()->factory($callable)(self::getInstance());
     }
 
     /**
@@ -61,7 +61,7 @@ class Container extends Pimple
      * Pimple facade
      *
      * @param Callable $callable
-     * @return mixed
+     * @return \Pimple\mixed
      */
     private static function reg($callable)
     {
